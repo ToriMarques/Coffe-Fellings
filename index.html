@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receitas de Café</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <style>
+        body{
+            background-color: burlywood;
+        }
+        .btn-brown {
+            background-color: #8B4513;
+            color: white;
+        }
+
+        .btn-brown:hover {
+            background-color: #A0522D; /* cor mais clara ao passar o mouse */
+        }
+
+        .alert-warning {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-3">   
+        <div class="input-group mb-3">
+            <input type="text" id="busca" class="form-control" placeholder="Pesquise sua receita">
+            <button id="botaoBuscar" class="btn btn-brown">Buscar</button>
+        </div>
+
+        <div class="alert alert-warning" id="alerta">Por favor, insira um termo de busca.</div>
+
+        <div id="resultados"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const receitas = [
+    {
+            nome: "Latte",
+            ingredientes: ["30ml de café espresso", "160ml de leite vaporizado"],
+            instrucoes: [
+                "Extraia 30ml de café espresso.",
+                "Vaporize 160ml de leite, observando o nível do creme.",
+                "Adicione o leite vaporizado sobre o café expresso."
+            ],
+            dicas: [
+                "Caso não tenha uma máquina de espresso, utilize uma cafeteira italiana ou outro método para obter um café mais intenso.",
+                "O ideal é que o leite cresça apenas 0,5cm de espuma.",
+                "Existem equipamentos domésticos que facilitam a vaporização do leite.",
+                "Finalize com a técnica de latte art para um visual mais bonito."
+            ]
+        },
+        {
+            nome: "Capuccino Gelado",
+            ingredientes: [
+                "100 ml de leite integral",
+                "3 colheres (sopa) de leite em pó",
+                "1 colher (sobremesa) de café solúvel",
+                "1 colher (sobremesa) de chocolate em pó",
+                "Gotinhas de essência de baunilha",
+                "Leite condensado para adoçar",
+                "1 pedra de gelo"
+            ],
+            instrucoes: [
+                "Bata todos os ingredientes no liquidificador junto com a pedra de gelo.",
+                "Sirva em seguida."
+            ],
+            dicas: [
+                "Ajuste a quantidade de leite condensado ao seu gosto.",
+                "Adicione mais gelo se preferir a bebida mais gelada."
+            ]
+        }
+    ];
+
+    function exibirResultados(resultados) {
+        const resultadosDiv = document.getElementById('resultados');
+        resultadosDiv.innerHTML = '';
+
+        if (resultados.length === 0) {
+            resultadosDiv.textContent = 'Nenhuma receita encontrada.';
+        } else {
+            resultados.forEach(receita => {
+                const card = document.createElement('div');
+                card.classList.add('card', 'mb-3');
+                
+                const cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
+
+                const cardTitle = document.createElement('h5');
+                cardTitle.classList.add('card-title');
+                cardTitle.textContent = receita.nome;
+
+                const ingredientes = document.createElement('p');
+                ingredientes.innerHTML = `<strong>Ingredientes:</strong> ${receita.ingredientes.join(', ')}`;
+
+                const instrucoes = document.createElement('p');
+                instrucoes.innerHTML = `<strong>Instruções:</strong> ${receita.instrucoes.join(' ')}`;
+
+                const dicas = document.createElement('p');
+                dicas.innerHTML = `<strong>Dicas:</strong> ${receita.dicas.join(' ')}`;
+
+                cardBody.appendChild(cardTitle);
+                cardBody.appendChild(ingredientes);
+                cardBody.appendChild(instrucoes);
+                cardBody.appendChild(dicas);
+
+                card.appendChild(cardBody);
+                resultadosDiv.appendChild(card);
+            });
+        }
+    }
+
+    function buscarReceita() {
+        const input = document.getElementById('busca');
+        const alerta = document.getElementById('alerta');
+        const termoBusca = input.value.trim().toLowerCase();
+
+        // Verifica se o termo de busca está vazio
+        if (termoBusca === "") {
+            alerta.style.display = 'block'; // Exibe o alerta
+            return;
+        } else {
+            alerta.style.display = 'none'; // Esconde o alerta se houver busca
+        }
+
+        const resultados = receitas.filter(receita => {
+            const nome = receita.nome.toLowerCase();
+            const ingredientes = receita.ingredientes.join(' ').toLowerCase();
+            return nome.includes(termoBusca) || ingredientes.includes(termoBusca);
+        });
+
+        exibirResultados(resultados);
+    }
+
+    const botaoBuscar = document.getElementById('botaoBuscar');
+    botaoBuscar.addEventListener('click', buscarReceita);
+    </script>
+</body>
+</html>
