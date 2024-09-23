@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receitas de Café</title>
+    </head>
+<body>
+    <div class="container">
+        <input type="text" id="busca" placeholder="Pesquise sua receita">
+        <button id="botaoBuscar">Buscar</button>
+        <div id="resultados"></div>
+    </div>
+    <script>
+    // ... suas receitas
+
+    function buscarReceita() {
+        const input = document.getElementById('busca');
+        const termoBusca = input.value.toLowerCase();
+
+        const resultados = receitas.filter(receita => {
+            const nome = receita.nome.toLowerCase();
+            const ingredientes = receita.ingredientes.join(' ').toLowerCase();
+            return nome.includes(termoBusca) || ingredientes.includes(termoBusca);
+        });
+
+        exibirResultados(resultados);
+    }
+
+    function exibirResultados(resultados) {
+        const resultadosDiv = document.getElementById('resultados');
+        resultadosDiv.innerHTML = '';
+
+        if (resultados.length === 0) {
+            resultadosDiv.textContent   
+ = 'Nenhuma receita encontrada.';
+        } else {
+            resultados.forEach(receita => {
+                // Crie os elementos HTML para cada receita e adicione ao resultadosDiv
+                // ... seu código para criar os cards
+            });
+        }
+    }
+
+    const botaoBuscar = document.getElementById('botaoBuscar');
+    botaoBuscar.addEventListener('click', buscarReceita);
+    </script>
+</body>
+</html>
